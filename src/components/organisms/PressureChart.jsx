@@ -56,14 +56,10 @@ const PressureChart = () => {
     let startDate, endDate = now;
 
 if (dateRange === "custom" && customRange.start && customRange.end) {
-        startDate = new Date(customRange.start);
-        endDate = new Date(customRange.end);
-        if (isNaN(startDate)) startDate = subDays(new Date(), 30);
-        if (isNaN(endDate)) endDate = new Date();
-      } else {
-        startDate = subDays(new Date(), 30);
-        endDate = new Date();
-      }
+      startDate = new Date(customRange.start);
+      endDate = new Date(customRange.end);
+      if (isNaN(startDate)) startDate = subDays(new Date(), 30);
+      if (isNaN(endDate)) endDate = new Date();
     } else if (dateRange === "all") {
       startDate = new Date(2020, 0, 1); // Far past date
     } else {
