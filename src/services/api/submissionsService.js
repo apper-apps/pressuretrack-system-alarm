@@ -444,4 +444,3 @@ class SubmissionsService {
 }
 
 export const submissionsService = new SubmissionsService();
-export const submissionsService = new SubmissionsService();
