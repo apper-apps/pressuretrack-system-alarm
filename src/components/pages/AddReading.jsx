@@ -5,7 +5,8 @@ import { useNavigate } from "react-router-dom";
 const AddReading = () => {
   const navigate = useNavigate();
 
-  const handleSave = () => {
+const handleSave = () => {
+    // Navigate back to dashboard after successful save
     navigate("/");
   };
 

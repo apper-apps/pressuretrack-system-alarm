@@ -132,10 +132,10 @@ const ReadingForm = ({ initialData, onSave, onCancel }) => {
     setLoading(true);
     
     try {
-      const validReadings = readings.filter(r => r.systolic && r.diastolic);
+const validReadings = readings.filter(r => r.systolic && r.diastolic);
       const averages = calculateAverages(validReadings);
       
-const submissionDate = new Date(formData.datetime);
+      const submissionDate = new Date(formData.datetime);
       if (isNaN(submissionDate)) {
         toast.error("Invalid date and time selected");
         return;
@@ -143,21 +143,23 @@ const submissionDate = new Date(formData.datetime);
       const dayKey = format(submissionDate, "yyyy-MM-dd");
 
       const submissionData = {
-        dayKey,
-        submittedAt: formData.datetime,
-        position: formData.position,
-        arm: formData.arm,
-        tags: formData.tags,
-        checklist: formData.checklist,
-        note: formData.note,
+        day_key_c: dayKey,
+        submitted_at_c: formData.datetime,
+        position_c: formData.position,
+        arm_c: formData.arm,
+        Tags: formData.tags,
+        checklist_c: formData.checklist,
+        note_c: formData.note,
         readings: validReadings.map(r => ({
-          sequence: r.sequence,
-          systolic: parseInt(r.systolic),
-          diastolic: parseInt(r.diastolic),
-          pulse: r.pulse ? parseInt(r.pulse) : null,
-          includeInAverage: true
+          sequence_c: r.sequence,
+          systolic_c: parseInt(r.systolic),
+          diastolic_c: parseInt(r.diastolic),
+          pulse_c: r.pulse ? parseInt(r.pulse) : null,
+          include_in_average_c: true
         })),
-        ...averages
+        avg_sys_c: averages.avgSys,
+        avg_dia_c: averages.avgDia,
+        avg_pulse_c: averages.avgPulse
       };
 
       if (initialData?.Id) {

@@ -50,8 +50,8 @@ const Dashboard = () => {
   const getRecentReadings = () => {
     const recent = submissions
 .sort((a, b) => {
-        const dateA = new Date(a.dayKey);
-        const dateB = new Date(b.dayKey);
+const dateA = new Date(a.day_key_c);
+        const dateB = new Date(b.day_key_c);
         if (isNaN(dateA) || isNaN(dateB)) return 0;
         return dateB - dateA;
       })
@@ -101,8 +101,8 @@ const Dashboard = () => {
     }
 
 const recent30Days = submissions.filter(s => {
-      if (!s.dayKey) return false;
-      const submissionDate = new Date(s.dayKey);
+      if (!s.day_key_c) return false;
+      const submissionDate = new Date(s.day_key_c);
       if (isNaN(submissionDate)) return false;
       const thirtyDaysAgo = subDays(new Date(), 30);
       return submissionDate >= thirtyDaysAgo;
@@ -118,13 +118,13 @@ const recent30Days = submissions.filter(s => {
       };
     }
 
-    const totalSys = recent30Days.reduce((sum, s) => sum + (s.avgSys || 0), 0);
-    const totalDia = recent30Days.reduce((sum, s) => sum + (s.avgDia || 0), 0);
-    const totalPulse = recent30Days.reduce((sum, s) => sum + (s.avgPulse || 0), 0);
-    const pulseCount = recent30Days.filter(s => s.avgPulse).length;
+const totalSys = recent30Days.reduce((sum, s) => sum + (s.avg_sys_c || 0), 0);
+    const totalDia = recent30Days.reduce((sum, s) => sum + (s.avg_dia_c || 0), 0);
+    const totalPulse = recent30Days.reduce((sum, s) => sum + (s.avg_pulse_c || 0), 0);
+    const pulseCount = recent30Days.filter(s => s.avg_pulse_c).length;
     
     const inTarget = recent30Days.filter(s => 
-      (s.avgSys || 0) < settings.targetSys && (s.avgDia || 0) < settings.targetDia
+(s.avg_sys_c || 0) < settings.target_sys_c && (s.avg_dia_c || 0) < settings.target_dia_c
     ).length;
 
     // Calculate trend
@@ -133,8 +133,8 @@ const recent30Days = submissions.filter(s => {
     
     let trend = null;
     if (recentWeek.length > 0 && previousWeek.length > 0) {
-      const recentAvgSys = recentWeek.reduce((sum, s) => sum + (s.avgSys || 0), 0) / recentWeek.length;
-      const previousAvgSys = previousWeek.reduce((sum, s) => sum + (s.avgSys || 0), 0) / previousWeek.length;
+const recentAvgSys = recentWeek.reduce((sum, s) => sum + (s.avg_sys_c || 0), 0) / recentWeek.length;
+      const previousAvgSys = previousWeek.reduce((sum, s) => sum + (s.avg_sys_c || 0), 0) / previousWeek.length;
       
       if (recentAvgSys < previousAvgSys - 2) {
         trend = "down";
@@ -247,7 +247,7 @@ const recent30Days = submissions.filter(s => {
         ) : (
           <div className="space-y-4">
             {recentReadings.map((submission) => {
-              const status = getReadingStatus(submission.avgSys, submission.avgDia);
+const status = getReadingStatus(submission.avg_sys_c, submission.avg_dia_c);
               return (
                 <div
                   key={submission.Id}
@@ -256,8 +256,8 @@ const recent30Days = submissions.filter(s => {
                   <div className="flex items-center space-x-4">
                     <div className="flex flex-col">
 <span className="font-medium text-gray-900">
-                        {submission.dayKey && !isNaN(new Date(submission.dayKey))
-                          ? format(new Date(submission.dayKey), "MMM dd, yyyy")
+                        {submission.day_key_c && !isNaN(new Date(submission.day_key_c))
+                          ? format(new Date(submission.day_key_c), "MMM dd, yyyy")
                           : "Unknown date"}
                       </span>
                       <span className="text-sm text-gray-500">
@@ -266,12 +266,12 @@ const recent30Days = submissions.filter(s => {
                     </div>
                     <div className="flex items-center space-x-2">
                       <div className="text-center">
-                        <div className="text-lg font-semibold text-gray-900">
-                          {submission.avgSys}/{submission.avgDia}
+<div className="text-lg font-semibold text-gray-900">
+                          {submission.avg_sys_c}/{submission.avg_dia_c}
                         </div>
                         <div className="text-xs text-gray-500">mmHg</div>
                       </div>
-                      {submission.avgPulse && (
+{submission.avg_pulse_c && (
                         <div className="text-center ml-4">
                           <div className="text-sm font-medium text-gray-700">
                             {submission.avgPulse}

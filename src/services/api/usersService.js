@@ -33,7 +33,7 @@ class UsersService {
         return this.createDefaultProfile(userId);
       }
 
-      return response.data;
+return response.data || this.getDefaultProfile();
     } catch (error) {
       if (error?.response?.data?.message) {
         console.error("Error fetching user profile:", error?.response?.data?.message);
@@ -95,10 +95,10 @@ class UsersService {
   async updateUserProfile(userId = 1, profileData) {
     try {
       // Calculate BMI if height and weight are provided
-      let updatedProfile = { ...profileData };
+let updatedProfile = { ...profileData };
       if (profileData.height_cm_c && profileData.weight_kg_c) {
-        const heightInMeters = profileData.height_cm_c / 100;
-        const bmi = profileData.weight_kg_c / (heightInMeters * heightInMeters);
+        const heightInMeters = parseFloat(profileData.height_cm_c) / 100;
+        const bmi = parseFloat(profileData.weight_kg_c) / (heightInMeters * heightInMeters);
         updatedProfile.bmi_cached_c = Math.round(bmi * 10) / 10;
       }
 

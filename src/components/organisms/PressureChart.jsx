@@ -72,13 +72,13 @@ if (customRange.start && customRange.end) {
     }
 
     return submissions.filter(submission => {
-if (!submission.dayKey) return false;
-      const submissionDate = new Date(submission.dayKey);
+if (!submission.day_key_c) return false;
+      const submissionDate = new Date(submission.day_key_c);
       if (isNaN(submissionDate)) return false;
       return isAfter(submissionDate, startDate) && isBefore(submissionDate, endDate);
     }).sort((a, b) => {
-      const dateA = new Date(a.dayKey);
-      const dateB = new Date(b.dayKey);
+const dateA = new Date(a.day_key_c);
+      const dateB = new Date(b.day_key_c);
       if (isNaN(dateA) || isNaN(dateB)) return 0;
       return dateA - dateB;
     });
@@ -87,7 +87,7 @@ if (!submission.dayKey) return false;
   const prepareChartData = () => {
     const filteredData = getFilteredData();
     const series = [];
-    const categories = filteredData.map(s => s.dayKey);
+const categories = filteredData.map(s => s.day_key_c);
 
     // Individual reading series
     if (chartToggles.reading1) {
@@ -95,7 +95,7 @@ if (!submission.dayKey) return false;
         name: "Reading 1 - Systolic",
         type: "line",
         data: filteredData.map(s => {
-          const reading1 = s.readings?.find(r => r.sequence === 1);
+const reading1 = s.readings?.find(r => r.sequence_c === 1);
           return reading1 ? reading1.systolic : null;
         })
       });
@@ -103,7 +103,7 @@ if (!submission.dayKey) return false;
         name: "Reading 1 - Diastolic",
         type: "line",
         data: filteredData.map(s => {
-          const reading1 = s.readings?.find(r => r.sequence === 1);
+const reading1 = s.readings?.find(r => r.sequence_c === 1);
           return reading1 ? reading1.diastolic : null;
         })
       });
@@ -114,7 +114,7 @@ if (!submission.dayKey) return false;
         name: "Reading 2 - Systolic",
         type: "line",
         data: filteredData.map(s => {
-          const reading2 = s.readings?.find(r => r.sequence === 2);
+const reading2 = s.readings?.find(r => r.sequence_c === 2);
           return reading2 ? reading2.systolic : null;
         })
       });
@@ -122,7 +122,7 @@ if (!submission.dayKey) return false;
         name: "Reading 2 - Diastolic",
         type: "line",
         data: filteredData.map(s => {
-          const reading2 = s.readings?.find(r => r.sequence === 2);
+const reading2 = s.readings?.find(r => r.sequence_c === 2);
           return reading2 ? reading2.diastolic : null;
         })
       });
@@ -133,7 +133,7 @@ if (!submission.dayKey) return false;
         name: "Reading 3 - Systolic",
         type: "line",
         data: filteredData.map(s => {
-          const reading3 = s.readings?.find(r => r.sequence === 3);
+const reading3 = s.readings?.find(r => r.sequence_c === 3);
           return reading3 ? reading3.systolic : null;
         })
       });
@@ -141,7 +141,7 @@ if (!submission.dayKey) return false;
         name: "Reading 3 - Diastolic",
         type: "line",
         data: filteredData.map(s => {
-          const reading3 = s.readings?.find(r => r.sequence === 3);
+const reading3 = s.readings?.find(r => r.sequence_c === 3);
           return reading3 ? reading3.diastolic : null;
         })
       });
@@ -152,12 +152,12 @@ if (!submission.dayKey) return false;
       series.push({
         name: "Daily Average - Systolic",
         type: "line",
-        data: filteredData.map(s => s.avgSys || null)
+data: filteredData.map(s => s.avg_sys_c || null)
       });
       series.push({
         name: "Daily Average - Diastolic",
         type: "line",
-        data: filteredData.map(s => s.avgDia || null)
+data: filteredData.map(s => s.avg_dia_c || null)
       });
     }
 
@@ -172,7 +172,7 @@ if (!submission.dayKey) return false;
           movingAvgDia.push(null);
         } else {
           const window = filteredData.slice(i - 6, i + 1);
-          const avgSys = window.reduce((sum, s) => sum + (s.avgSys || 0), 0) / window.length;
+const avgSys = window.reduce((sum, s) => sum + (s.avg_sys_c || 0), 0) / window.length;
           const avgDia = window.reduce((sum, s) => sum + (s.avgDia || 0), 0) / window.length;
           movingAvgSys.push(Math.round(avgSys));
           movingAvgDia.push(Math.round(avgDia));

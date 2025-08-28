@@ -55,11 +55,11 @@ const Profile = () => {
       setSettings(settingsData);
       
       setProfileData({
-        age: userData.profile?.age || "",
-        sex: userData.profile?.sex || "",
-        height_cm: userData.profile?.height_cm || "",
-        weight_kg: userData.profile?.weight_kg || "",
-        gp_name: userData.profile?.gp_name || ""
+age: userData.age_c || "",
+        sex: userData.sex_c || "",
+        height_cm: userData.height_cm_c || "",
+        weight_kg: userData.weight_kg_c || "",
+        gp_name: userData.gp_name_c || ""
       });
       
       setSettingsData({
@@ -95,7 +95,13 @@ const Profile = () => {
     setSaving(true);
     
     try {
-      const updatedUser = await usersService.updateUserProfile(user.Id, profileData);
+const updatedUser = await usersService.updateUserProfile(user?.Id || 1, {
+        age_c: profileData.age,
+        sex_c: profileData.sex,
+        height_cm_c: profileData.height_cm,
+        weight_kg_c: profileData.weight_kg,
+        gp_name_c: profileData.gp_name
+      });
       setUser(updatedUser);
       toast.success("Profile updated successfully!");
     } catch (error) {
@@ -112,7 +118,13 @@ const Profile = () => {
     setSaving(true);
     
     try {
-      const updatedSettings = await settingsService.updateUserSettings(user.Id, settingsData);
+const updatedSettings = await settingsService.updateUserSettings(user?.Id || 1, {
+        target_sys_c: settingsData.targetSys,
+        target_dia_c: settingsData.targetDia,
+        alert_sys_c: settingsData.alertSys,
+        alert_dia_c: settingsData.alertDia,
+        smoothing_days_c: settingsData.smoothingDays
+      });
       setSettings(updatedSettings);
       toast.success("Settings updated successfully!");
     } catch (error) {
@@ -131,7 +143,7 @@ const Profile = () => {
     setSaving(true);
     
     try {
-      const defaultSettings = await settingsService.resetToDefaults(user.Id);
+const defaultSettings = await settingsService.resetToDefaults(user?.Id || 1);
       setSettings(defaultSettings);
       setSettingsData({
         targetSys: defaultSettings.targetSys,
