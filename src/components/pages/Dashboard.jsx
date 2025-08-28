@@ -261,7 +261,7 @@ const recent30Days = submissions.filter(s => {
                           : "Unknown date"}
                       </span>
                       <span className="text-sm text-gray-500">
-                        {submission.tags.join(", ") || "No tags"}
+{submission.Tags || "No tags"}
                       </span>
                     </div>
                     <div className="flex items-center space-x-2">
