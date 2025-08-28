@@ -274,7 +274,7 @@ const status = getReadingStatus(submission.avg_sys_c, submission.avg_dia_c);
 {submission.avg_pulse_c && (
                         <div className="text-center ml-4">
                           <div className="text-sm font-medium text-gray-700">
-                            {submission.avgPulse}
+{submission.avg_pulse_c}
                           </div>
                           <div className="text-xs text-gray-500">bpm</div>
                         </div>

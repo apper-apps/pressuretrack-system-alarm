@@ -1,13 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import ReactApexChart from "react-apexcharts";
-import ChartToggle from "@/components/molecules/ChartToggle";
-import DateRangePicker from "@/components/molecules/DateRangePicker";
-import Button from "@/components/atoms/Button";
-import Card from "@/components/atoms/Card";
-import ApperIcon from "@/components/ApperIcon";
 import { submissionsService } from "@/services/api/submissionsService";
 import { medicationsService } from "@/services/api/medicationsService";
-import { format, subDays, isAfter, isBefore, parseISO } from "date-fns";
+import { format, isAfter, isBefore, parseISO, subDays } from "date-fns";
+import ApperIcon from "@/components/ApperIcon";
+import ChartToggle from "@/components/molecules/ChartToggle";
+import DateRangePicker from "@/components/molecules/DateRangePicker";
+import Card from "@/components/atoms/Card";
+import Select from "@/components/atoms/Select";
+import Button from "@/components/atoms/Button";
 
 const PressureChart = () => {
   const [submissions, setSubmissions] = useState([]);
@@ -54,8 +55,7 @@ const PressureChart = () => {
     const now = new Date();
     let startDate, endDate = now;
 
-    if (dateRange === "custom" && customRange.start && customRange.end) {
-if (customRange.start && customRange.end) {
+if (dateRange === "custom" && customRange.start && customRange.end) {
         startDate = new Date(customRange.start);
         endDate = new Date(customRange.end);
         if (isNaN(startDate)) startDate = subDays(new Date(), 30);
@@ -94,17 +94,17 @@ const categories = filteredData.map(s => s.day_key_c);
       series.push({
         name: "Reading 1 - Systolic",
         type: "line",
-        data: filteredData.map(s => {
+data: filteredData.map(s => {
 const reading1 = s.readings?.find(r => r.sequence_c === 1);
-          return reading1 ? reading1.systolic : null;
+          return reading1 ? reading1.systolic_c : null;
         })
       });
       series.push({
         name: "Reading 1 - Diastolic",
-        type: "line",
+type: "line",
         data: filteredData.map(s => {
 const reading1 = s.readings?.find(r => r.sequence_c === 1);
-          return reading1 ? reading1.diastolic : null;
+          return reading1 ? reading1.diastolic_c : null;
         })
       });
     }
@@ -112,29 +112,29 @@ const reading1 = s.readings?.find(r => r.sequence_c === 1);
     if (chartToggles.reading2) {
       series.push({
         name: "Reading 2 - Systolic",
-        type: "line",
+type: "line",
         data: filteredData.map(s => {
 const reading2 = s.readings?.find(r => r.sequence_c === 2);
-          return reading2 ? reading2.systolic : null;
+          return reading2 ? reading2.systolic_c : null;
         })
       });
       series.push({
-        name: "Reading 2 - Diastolic",
+name: "Reading 2 - Diastolic",
         type: "line",
-        data: filteredData.map(s => {
+data: filteredData.map(s => {
 const reading2 = s.readings?.find(r => r.sequence_c === 2);
-          return reading2 ? reading2.diastolic : null;
+          return reading2 ? reading2.diastolic_c : null;
         })
       });
     }
 
     if (chartToggles.reading3) {
       series.push({
-        name: "Reading 3 - Systolic",
+name: "Reading 3 - Systolic",
         type: "line",
-        data: filteredData.map(s => {
+data: filteredData.map(s => {
 const reading3 = s.readings?.find(r => r.sequence_c === 3);
-          return reading3 ? reading3.systolic : null;
+          return reading3 ? reading3.systolic_c : null;
         })
       });
       series.push({
@@ -142,7 +142,7 @@ const reading3 = s.readings?.find(r => r.sequence_c === 3);
         type: "line",
         data: filteredData.map(s => {
 const reading3 = s.readings?.find(r => r.sequence_c === 3);
-          return reading3 ? reading3.diastolic : null;
+          return reading3 ? reading3.diastolic_c : null;
         })
       });
     }
@@ -171,9 +171,9 @@ data: filteredData.map(s => s.avg_dia_c || null)
           movingAvgSys.push(null);
           movingAvgDia.push(null);
         } else {
-          const window = filteredData.slice(i - 6, i + 1);
+const window = filteredData.slice(i - 6, i + 1);
 const avgSys = window.reduce((sum, s) => sum + (s.avg_sys_c || 0), 0) / window.length;
-          const avgDia = window.reduce((sum, s) => sum + (s.avgDia || 0), 0) / window.length;
+          const avgDia = window.reduce((sum, s) => sum + (s.avg_dia_c || 0), 0) / window.length;
           movingAvgSys.push(Math.round(avgSys));
           movingAvgDia.push(Math.round(avgDia));
         }
