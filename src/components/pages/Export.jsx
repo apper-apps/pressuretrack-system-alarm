@@ -92,12 +92,21 @@ const Export = () => {
 
   const getFilteredSubmissions = () => {
     return submissions.filter(submission => {
+if (!submission.dayKey || !exportConfig.startDate || !exportConfig.endDate) return false;
+      
       const submissionDate = new Date(submission.dayKey);
       const start = new Date(exportConfig.startDate);
       const end = new Date(exportConfig.endDate);
       
+      if (isNaN(submissionDate) || isNaN(start) || isNaN(end)) return false;
+      
       return submissionDate >= start && submissionDate <= end;
-    }).sort((a, b) => new Date(a.dayKey) - new Date(b.dayKey));
+    }).sort((a, b) => {
+      const dateA = new Date(a.dayKey);
+      const dateB = new Date(b.dayKey);
+      if (isNaN(dateA) || isNaN(dateB)) return 0;
+      return dateA - dateB;
+    });
   };
 
   const generateCSV = () => {
@@ -131,8 +140,10 @@ const Export = () => {
       if (submission.readings && submission.readings.length > 0) {
         submission.readings.forEach(reading => {
           const row = [
-            submission.dayKey,
-            format(new Date(submission.submittedAt), "HH:mm"),
+submission.dayKey,
+            submission.submittedAt && !isNaN(new Date(submission.submittedAt))
+              ? format(new Date(submission.submittedAt), "HH:mm")
+              : "Unknown time",
             reading.sequence,
             reading.systolic,
             reading.diastolic,
@@ -154,8 +165,10 @@ const Export = () => {
       } else {
         // Submission without readings
         const row = [
-          submission.dayKey,
-          format(new Date(submission.submittedAt), "HH:mm"),
+submission.dayKey,
+          submission.submittedAt && !isNaN(new Date(submission.submittedAt))
+            ? format(new Date(submission.submittedAt), "HH:mm")
+            : "Unknown time",
           "",
           "",
           "",
@@ -181,13 +194,21 @@ const Export = () => {
 
   const generatePDF = () => {
     const filteredSubmissions = getFilteredSubmissions();
-    const activeMedications = medications.filter(med => 
-      !med.endDate || new Date(med.endDate) >= new Date(exportConfig.startDate)
-    );
+const activeMedications = medications.filter(med => {
+      if (!med.endDate) return true;
+      const endDate = new Date(med.endDate);
+      const startDate = new Date(exportConfig.startDate);
+      if (isNaN(endDate) || isNaN(startDate)) return true;
+      return endDate >= startDate;
+    });
 
-    let pdfContent = `BLOOD PRESSURE MONITORING REPORT
+let pdfContent = `BLOOD PRESSURE MONITORING REPORT
 Generated: ${format(new Date(), "MMMM dd, yyyy")}
-Period: ${format(new Date(exportConfig.startDate), "MMM dd, yyyy")} - ${format(new Date(exportConfig.endDate), "MMM dd, yyyy")}
+Period: ${exportConfig.startDate && !isNaN(new Date(exportConfig.startDate))
+  ? format(new Date(exportConfig.startDate), "MMM dd, yyyy")
+  : "Unknown start"} - ${exportConfig.endDate && !isNaN(new Date(exportConfig.endDate))
+  ? format(new Date(exportConfig.endDate), "MMM dd, yyyy")
+  : "Unknown end"}
 
 PATIENT INFORMATION:
 `;
@@ -207,7 +228,9 @@ GP: ${profile.gp_name || "Not specified"}
       pdfContent += `\nCURRENT MEDICATIONS:
 `;
       activeMedications.forEach(med => {
-        pdfContent += `- ${med.name} (${med.dose}) - Started: ${format(new Date(med.startDate), "MMM dd, yyyy")}
+pdfContent += `- ${med.name} (${med.dose}) - Started: ${med.startDate && !isNaN(new Date(med.startDate))
+          ? format(new Date(med.startDate), "MMM dd, yyyy")
+          : "Unknown date"}
 `;
         if (med.note) {
           pdfContent += `  Note: ${med.note}
@@ -222,8 +245,10 @@ GP: ${profile.gp_name || "Not specified"}
     if (filteredSubmissions.length === 0) {
       pdfContent += "No readings available for selected period.";
     } else {
-      filteredSubmissions.forEach(submission => {
-        pdfContent += `\nDate: ${format(new Date(submission.dayKey), "MMM dd, yyyy")}
+filteredSubmissions.forEach(submission => {
+        pdfContent += `\nDate: ${submission.dayKey && !isNaN(new Date(submission.dayKey))
+          ? format(new Date(submission.dayKey), "MMM dd, yyyy")
+          : "Unknown date"}
 Daily Average: ${submission.avgSys}/${submission.avgDia} mmHg`;
         
         if (submission.avgPulse) {
@@ -417,8 +442,12 @@ Tags: ${submission.tags.join(", ") || "None"}
                   {exportConfig.format === "csv" ? "CSV Data File" : "PDF Report"}
                 </h3>
                 <p className="text-sm text-gray-600">
-                  {filteredSubmissions.length} submission{filteredSubmissions.length !== 1 ? "s" : ""} from{" "}
-                  {format(new Date(exportConfig.startDate), "MMM dd")} to {format(new Date(exportConfig.endDate), "MMM dd, yyyy")}
+{filteredSubmissions.length} submission{filteredSubmissions.length !== 1 ? "s" : ""} from{" "}
+                  {exportConfig.startDate && !isNaN(new Date(exportConfig.startDate))
+                    ? format(new Date(exportConfig.startDate), "MMM dd")
+                    : "unknown start"} to {exportConfig.endDate && !isNaN(new Date(exportConfig.endDate))
+                    ? format(new Date(exportConfig.endDate), "MMM dd, yyyy")
+                    : "unknown end"}
                 </p>
               </div>
             </div>
@@ -454,7 +483,13 @@ Tags: ${submission.tags.join(", ") || "None"}
             
             <div className="text-center p-4 bg-error-50 rounded-lg">
               <div className="text-2xl font-bold text-red-800">
-                {format(new Date(exportConfig.endDate) - new Date(exportConfig.startDate), "d")}
+{(() => {
+                  if (!exportConfig.startDate || !exportConfig.endDate) return "0";
+                  const start = new Date(exportConfig.startDate);
+                  const end = new Date(exportConfig.endDate);
+                  if (isNaN(start) || isNaN(end)) return "0";
+                  return Math.ceil((end - start) / (1000 * 60 * 60 * 24));
+                })()}
               </div>
               <div className="text-sm text-red-600">Days</div>
             </div>

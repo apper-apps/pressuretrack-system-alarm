@@ -80,7 +80,7 @@ const Medications = () => {
     setFormData({
       name: medication.name,
       dose: medication.dose,
-      startDate: medication.startDate,
+startDate: medication.startDate || "",
       endDate: medication.endDate || "",
       note: medication.note || ""
     });
@@ -105,7 +105,7 @@ const Medications = () => {
   const handleDiscontinue = async (medication) => {
     try {
       await medicationsService.update(medication.Id, {
-        ...medication,
+...medication,
         endDate: format(new Date(), "yyyy-MM-dd")
       });
       toast.success("Medication discontinued!");
@@ -131,9 +131,11 @@ const Medications = () => {
   const getMedicationStatus = (medication) => {
     if (!medication.endDate) return "active";
     
+if (!medication.endDate) return "active";
     const endDate = new Date(medication.endDate);
     const today = new Date();
     
+    if (isNaN(endDate)) return "active";
     return endDate <= today ? "discontinued" : "active";
   };
 
@@ -291,9 +293,13 @@ const Medications = () => {
                     <div className="space-y-1 text-sm text-gray-600">
                       <div className="flex items-center space-x-4">
                         <span><strong>Dose:</strong> {medication.dose}</span>
-                        <span><strong>Started:</strong> {format(new Date(medication.startDate), "MMM dd, yyyy")}</span>
+<span><strong>Started:</strong> {medication.startDate && !isNaN(new Date(medication.startDate))
+                          ? format(new Date(medication.startDate), "MMM dd, yyyy")
+                          : "Unknown date"}</span>
                         {medication.endDate && (
-                          <span><strong>Ended:</strong> {format(new Date(medication.endDate), "MMM dd, yyyy")}</span>
+                          <span><strong>Ended:</strong> {medication.endDate && !isNaN(new Date(medication.endDate))
+                            ? format(new Date(medication.endDate), "MMM dd, yyyy")
+                            : "Unknown date"}</span>
                         )}
                       </div>
                       {medication.note && (

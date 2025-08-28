@@ -135,7 +135,11 @@ const ReadingForm = ({ initialData, onSave, onCancel }) => {
       const validReadings = readings.filter(r => r.systolic && r.diastolic);
       const averages = calculateAverages(validReadings);
       
-      const submissionDate = new Date(formData.datetime);
+const submissionDate = new Date(formData.datetime);
+      if (isNaN(submissionDate)) {
+        toast.error("Invalid date and time selected");
+        return;
+      }
       const dayKey = format(submissionDate, "yyyy-MM-dd");
 
       const submissionData = {
@@ -182,7 +186,9 @@ const ReadingForm = ({ initialData, onSave, onCancel }) => {
             {initialData?.Id ? "Edit Reading" : "Add New Reading"}
           </h2>
           <div className="text-sm text-gray-500">
-            {format(new Date(formData.datetime), "MMM dd, yyyy 'at' h:mm a")}
+{formData.datetime && !isNaN(new Date(formData.datetime))
+              ? format(new Date(formData.datetime), "MMM dd, yyyy 'at' h:mm a")
+              : "Invalid date"}
           </div>
         </div>
 

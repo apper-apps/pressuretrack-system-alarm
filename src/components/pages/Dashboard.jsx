@@ -49,7 +49,12 @@ const Dashboard = () => {
 
   const getRecentReadings = () => {
     const recent = submissions
-      .sort((a, b) => new Date(b.dayKey) - new Date(a.dayKey))
+.sort((a, b) => {
+        const dateA = new Date(a.dayKey);
+        const dateB = new Date(b.dayKey);
+        if (isNaN(dateA) || isNaN(dateB)) return 0;
+        return dateB - dateA;
+      })
       .slice(0, 7);
     return recent;
   };
@@ -95,8 +100,10 @@ const Dashboard = () => {
       };
     }
 
-    const recent30Days = submissions.filter(s => {
+const recent30Days = submissions.filter(s => {
+      if (!s.dayKey) return false;
       const submissionDate = new Date(s.dayKey);
+      if (isNaN(submissionDate)) return false;
       const thirtyDaysAgo = subDays(new Date(), 30);
       return submissionDate >= thirtyDaysAgo;
     });
@@ -248,8 +255,10 @@ const Dashboard = () => {
                 >
                   <div className="flex items-center space-x-4">
                     <div className="flex flex-col">
-                      <span className="font-medium text-gray-900">
-                        {format(new Date(submission.dayKey), "MMM dd, yyyy")}
+<span className="font-medium text-gray-900">
+                        {submission.dayKey && !isNaN(new Date(submission.dayKey))
+                          ? format(new Date(submission.dayKey), "MMM dd, yyyy")
+                          : "Unknown date"}
                       </span>
                       <span className="text-sm text-gray-500">
                         {submission.tags.join(", ") || "No tags"}

@@ -34,7 +34,9 @@ const MedicationMarker = ({
               <div className="font-semibold">{medication.name}</div>
               <div className="text-gray-300">{medication.dose}</div>
               <div className="text-gray-400 text-xs">
-                Started: {format(new Date(medication.startDate), "MMM dd, yyyy")}
+Started: {medication.startDate && !isNaN(new Date(medication.startDate)) 
+                  ? format(new Date(medication.startDate), "MMM dd, yyyy") 
+                  : "Unknown date"}
               </div>
               {medication.note && (
                 <div className="text-gray-300 text-xs mt-1 max-w-48">
