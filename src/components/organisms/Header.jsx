@@ -1,8 +1,17 @@
-import React from "react";
+import React, { useContext } from "react";
 import Button from "@/components/atoms/Button";
 import ApperIcon from "@/components/ApperIcon";
+import { AuthContext } from "../../App";
 
 const Header = ({ onMenuClick }) => {
+  const { logout } = useContext(AuthContext);
+  
+  const handleLogout = async () => {
+    if (confirm("Are you sure you want to logout?")) {
+      await logout();
+    }
+  };
+
   return (
     <header className="bg-white border-b border-gray-200 px-6 py-4 lg:hidden">
       <div className="flex items-center justify-between">
@@ -25,8 +34,17 @@ const Header = ({ onMenuClick }) => {
           </div>
         </div>
         
-        <div className="text-xs text-primary-600 font-medium">
-          Pro
+        <div className="flex items-center space-x-2">
+          <div className="text-xs text-primary-600 font-medium">
+            Pro
+          </div>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={handleLogout}
+            icon="LogOut"
+            className="text-gray-600 hover:text-red-600"
+          />
         </div>
       </div>
     </header>
