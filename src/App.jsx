@@ -6,6 +6,7 @@ import { setUser, clearUser } from './store/userSlice';
 import Layout from "@/components/organisms/Layout";
 import Dashboard from "@/components/pages/Dashboard";
 import AddReading from "@/components/pages/AddReading";
+import Readings from "@/components/pages/Readings";
 import ChartView from "@/components/pages/ChartView";
 import Medications from "@/components/pages/Medications";
 import Profile from "@/components/pages/Profile";
@@ -129,9 +130,10 @@ function AppContent() {
         <Route path="/error" element={<ErrorPage />} />
         <Route path="/prompt-password/:appId/:emailAddress/:provider" element={<PromptPassword />} />
         <Route path="/reset-password/:appId/:fields" element={<ResetPassword />} />
-        <Route path="/" element={<Layout />}>
+<Route path="/" element={<Layout />}>
           <Route index element={<Dashboard />} />
           <Route path="add-reading" element={<AddReading />} />
+          <Route path="readings" element={<Readings />} />
           <Route path="chart" element={<ChartView />} />
           <Route path="medications" element={<Medications />} />
           <Route path="profile" element={<Profile />} />
