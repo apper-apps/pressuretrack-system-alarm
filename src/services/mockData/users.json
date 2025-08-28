@@ -1,0 +1,14 @@
+[
+  {
+    "Id": 1,
+    "email": "user@example.com",
+    "profile": {
+      "age": 52,
+      "sex": "male",
+      "height_cm": 175,
+      "weight_kg": 82,
+      "bmi_cached": 26.8,
+      "gp_name": "Dr. Sarah Johnson"
+    }
+  }
+]

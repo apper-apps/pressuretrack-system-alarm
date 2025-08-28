@@ -1,0 +1,165 @@
+[
+  {
+    "Id": 1,
+    "dayKey": "2024-01-15",
+    "submittedAt": "2024-01-15T08:30:00Z",
+    "position": "sitting",
+    "arm": "left",
+    "tags": ["morning"],
+    "checklist": ["seated-5min", "feet-floor", "arm-supported"],
+    "note": "Feeling a bit anxious this morning",
+    "avgSys": 142,
+    "avgDia": 88,
+    "avgPulse": 72,
+    "readings": [
+      {
+        "Id": 1,
+        "sequence": 1,
+        "systolic": 145,
+        "diastolic": 90,
+        "pulse": 74,
+        "includeInAverage": true
+      },
+      {
+        "Id": 2,
+        "sequence": 2,
+        "systolic": 138,
+        "diastolic": 86,
+        "pulse": 70,
+        "includeInAverage": true
+      }
+    ]
+  },
+  {
+    "Id": 2,
+    "dayKey": "2024-01-16",
+    "submittedAt": "2024-01-16T19:45:00Z",
+    "position": "sitting",
+    "arm": "left",
+    "tags": ["evening", "post-exercise"],
+    "checklist": ["seated-5min", "feet-floor", "arm-supported", "no-talking"],
+    "note": "After 30min walk",
+    "avgSys": 136,
+    "avgDia": 84,
+    "avgPulse": 68,
+    "readings": [
+      {
+        "Id": 3,
+        "sequence": 1,
+        "systolic": 140,
+        "diastolic": 86,
+        "pulse": 70,
+        "includeInAverage": true
+      },
+      {
+        "Id": 4,
+        "sequence": 2,
+        "systolic": 132,
+        "diastolic": 82,
+        "pulse": 66,
+        "includeInAverage": true
+      }
+    ]
+  },
+  {
+    "Id": 3,
+    "dayKey": "2024-01-17",
+    "submittedAt": "2024-01-17T08:15:00Z",
+    "position": "sitting",
+    "arm": "left",
+    "tags": ["morning", "pre-meds"],
+    "checklist": ["seated-5min", "feet-floor", "arm-supported", "bladder-empty"],
+    "note": "Before taking morning medications",
+    "avgSys": 139,
+    "avgDia": 87,
+    "avgPulse": 71,
+    "readings": [
+      {
+        "Id": 5,
+        "sequence": 1,
+        "systolic": 144,
+        "diastolic": 89,
+        "pulse": 73,
+        "includeInAverage": true
+      },
+      {
+        "Id": 6,
+        "sequence": 2,
+        "systolic": 135,
+        "diastolic": 85,
+        "pulse": 69,
+        "includeInAverage": true
+      },
+      {
+        "Id": 7,
+        "sequence": 3,
+        "systolic": 137,
+        "diastolic": 87,
+        "pulse": 71,
+        "includeInAverage": true
+      }
+    ]
+  },
+  {
+    "Id": 4,
+    "dayKey": "2024-01-18",
+    "submittedAt": "2024-01-18T20:00:00Z",
+    "position": "sitting",
+    "arm": "right",
+    "tags": ["evening"],
+    "checklist": ["seated-5min", "feet-floor", "arm-supported", "no-talking"],
+    "note": "Switched to right arm for comparison",
+    "avgSys": 133,
+    "avgDia": 81,
+    "avgPulse": 67,
+    "readings": [
+      {
+        "Id": 8,
+        "sequence": 1,
+        "systolic": 135,
+        "diastolic": 83,
+        "pulse": 68,
+        "includeInAverage": true
+      },
+      {
+        "Id": 9,
+        "sequence": 2,
+        "systolic": 131,
+        "diastolic": 79,
+        "pulse": 66,
+        "includeInAverage": true
+      }
+    ]
+  },
+  {
+    "Id": 5,
+    "dayKey": "2024-01-19",
+    "submittedAt": "2024-01-19T08:45:00Z",
+    "position": "sitting",
+    "arm": "left",
+    "tags": ["morning"],
+    "checklist": ["seated-5min", "feet-floor", "arm-supported"],
+    "note": "Good night's sleep",
+    "avgSys": 128,
+    "avgDia": 78,
+    "avgPulse": 65,
+    "readings": [
+      {
+        "Id": 10,
+        "sequence": 1,
+        "systolic": 130,
+        "diastolic": 80,
+        "pulse": 67,
+        "includeInAverage": true
+      },
+      {
+        "Id": 11,
+        "sequence": 2,
+        "systolic": 126,
+        "diastolic": 76,
+        "pulse": 63,
+        "includeInAverage": true
+      }
+    ]
+  }
+]
